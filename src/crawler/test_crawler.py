@@ -1,5 +1,7 @@
 import unittest
-from crawler import *
+from crawler.crawler import *
+from fetcher.requests import *
+from store.store import *
 
 class TestTracker(unittest.TestCase):
     def test_visited_1(self):
@@ -37,7 +39,32 @@ class TestURLDescriptor(unittest.TestCase):
         self.assertEqual(ud.getURL(),url)
         self.assertEqual(ud.getDepthLevel(),1)
 
+class TestGetWebsiteAssets(unittest.TestCase):
+    def test_getassets1(self):
+        url="https://www.geeksforgeeks.org/"
+        req=FakeRequest()
+        new_store=MockStore()
+        f=Fetcher(0,req,new_store)
+        totalAssets,totalLinks=f.GetWebsiteAssets(url)
+        print("totalassets: ",totalAssets)
+        print("totallinks: ",totalLinks)
+        self.assertEqual(totalAssets,8)
+        self.assertEqual(totalLinks,237)
+    def test_getassets2(self):
+        url="https://www.geeksforgeeks.org/"
+        req=FakeRequest()
+        new_store=MockStore()
+        f=Fetcher(1,req,new_store)
+        totalAssets,totalLinks=f.GetWebsiteAssets(url)
+        self.assertEqual(totalAssets,8)
+        self.assertEqual(totalLinks,237)
+    def test_getassets3(self):
+        url="https://openebs.io/"
+        req=FakeRequest()
+        new_store=MockStore()
+        f=Fetcher(1,req,new_store)
+        totalAssets,totalLinks=f.GetWebsiteAssets(url)
+        self.assertEqual(totalAssets,6)
+        self.assertEqual(totalLinks,13)
 
 
-if __name__ == '__main__':
-    unittest.main()

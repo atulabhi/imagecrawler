@@ -1,25 +1,22 @@
 import sys
-import requests
-sys.path.append("..")
-from imgstore.store import LocalStore
+from store.store import LocalStore
 
 class Downloader:
     # parameterized constructor
-    def __init__(self,store):
+    def __init__(self,store,requests):
         self.store = store
+        self.requests = requests
     # Donwload method to download image from url
     def Save(self,assets):
         count = 0
-        print("Total {len(assets)} Image Found!")
         for i, imageUrl in enumerate(assets):
-            print("downloading image for ", imageUrl)
-            imageContent = requests.get(imageUrl).content
-            self.store.save(imageContent, "img-"+str(count))
-            count=count+1
-        if count == len(assets):
-            print("All Images Downloaded!")
-            print (count)
-        else:
-            print(f"Total {count} Images Downloaded Out of {len(assets)}")
+            try:
+                imageContent = self.requests.get(imageUrl).content
+                if self.store.save(imageContent, "img-"+str(count)):
+                    count=count+1
+            except IOError:
+                print("failed to download image content from url ",imageUrl)
+                continue
+        return count
 
  
