@@ -26,6 +26,9 @@ class UrlDescriptor:
 class Tracker:
     imageTracker = {}
     linkTracker = {}
+    def __init__(self):
+        self.imageTracker = {}
+        self.linkTracker = {}
     def addImageLink(self,link):
         self.imageTracker[link]="true"
     def addWebLink(self,link):
@@ -83,7 +86,7 @@ def getWebsiteAssets(url):
     #downloadImage(assets, tmpStore)
 
 
-getWebsiteAssets(url)
+#getWebsiteAssets(url)
 
 
 

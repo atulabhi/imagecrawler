@@ -12,9 +12,9 @@ class Downloader:
         count = 0
         print("Total {len(assets)} Image Found!")
         for i, imageUrl in enumerate(assets):
-            print("downloading image for url: ",imageUrl)
+            print("downloading image for ", imageUrl)
             imageContent = requests.get(imageUrl).content
-            self.store.save(imageContent,"img-"+str(count))
+            self.store.save(imageContent, "img-"+str(count))
             count=count+1
         if count == len(assets):
             print("All Images Downloaded!")
